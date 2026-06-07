@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Produtos · EstoquePro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo"><span class="logo-icon">⬡</span><span class="logo-text">Estoque<em>Pro</em></span></div>
+    <nav class="sidebar-nav">
+      <a href="index.html"         class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+      <a href="produtos.html"      class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 3H8a2 2 0 00-2 2v2h12V5a2 2 0 00-2-2z"/></svg>Produtos</a>
+      <a href="relatorios.html"    class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>Relatórios</a>
+      <a href="configuracoes.html" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Configurações</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-avatar" id="sidebar-avatar">IS</div>
+      <div class="user-info"><span class="user-name" id="sidebar-user-name">Ismael</span><span class="user-role" id="sidebar-user-role">Administrador</span></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="page-header">
+      <div class="header-left">
+        <h1 class="page-title">Produtos</h1>
+        <p class="page-subtitle">Filtros avançados, categorias e importação em lote</p>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn-ghost" onclick="document.getElementById('csv-input').click()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Importar CSV
+        </button>
+        <input type="file" id="csv-input" accept=".csv" style="display:none" onchange="importarCSV(this)" />
+        <button class="btn-ghost" onclick="baixarModeloCSV()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Modelo CSV
+        </button>
+        <button class="btn-primary" onclick="abrirModalCategoria()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Nova Categoria
+        </button>
+      </div>
+    </header>
+
+    <!-- Filtros avançados -->
+    <section class="filtros-section">
+      <div class="filtros-grid">
+        <div class="form-group">
+          <label class="form-label">Categoria</label>
+          <select class="form-input" id="filtro-categoria" onchange="aplicarFiltros()">
+            <option value="">Todas</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Preço mínimo</label>
+          <input type="number" class="form-input" id="filtro-preco-min" placeholder="R$ 0,00" min="0" step="0.01" onchange="aplicarFiltros()" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Preço máximo</label>
+          <input type="number" class="form-input" id="filtro-preco-max" placeholder="R$ 999,99" min="0" step="0.01" onchange="aplicarFiltros()" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Qtd. mínima</label>
+          <input type="number" class="form-input" id="filtro-qtd-min" placeholder="0" min="0" onchange="aplicarFiltros()" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Qtd. máxima</label>
+          <input type="number" class="form-input" id="filtro-qtd-max" placeholder="9999" min="0" onchange="aplicarFiltros()" />
+        </div>
+        <div class="form-group" style="display:flex;align-items:flex-end">
+          <button class="btn-ghost" style="width:100%" onclick="limparFiltros()">Limpar filtros</button>
+        </div>
+      </div>
+
+      <!-- Categorias como chips -->
+      <div class="categorias-chips" id="categorias-chips"></div>
+    </section>
+
+    <section class="table-section">
+      <div class="table-header">
+        <span class="table-count" id="table-count">—</span>
+        <button class="btn-ghost" onclick="aplicarFiltros()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          Atualizar
+        </button>
+      </div>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr><th>ID</th><th>Produto</th><th>Categoria</th><th>Preço</th><th>Quantidade</th><th>Valor Total</th><th>Status</th><th>Ações</th></tr>
+          </thead>
+          <tbody id="tabela-body">
+            <tr class="loading-row"><td colspan="8"><div class="loading-spinner"></div><span>Carregando...</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- Modal Nova Categoria -->
+  <div class="modal-overlay" id="modal-categoria" onclick="fecharModalCategoria()">
+    <div class="modal modal-sm" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2 class="modal-title">Nova Categoria</h2>
+        <button class="modal-close" onclick="fecharModalCategoria()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Nome</label>
+          <input type="text" class="form-input" id="cat-nome" placeholder="Ex: Ferramentas" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Cor</label>
+          <div style="display:flex;gap:10px;align-items:center">
+            <input type="color" id="cat-cor" value="#e8a020" style="width:48px;height:38px;border:1px solid var(--border-strong);border-radius:var(--radius-md);background:none;cursor:pointer;padding:2px" />
+            <span style="font-size:13px;color:var(--text-secondary)">Cor usada nos badges da categoria</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" onclick="fecharModalCategoria()">Cancelar</button>
+        <button class="btn-primary" onclick="salvarCategoria()">Criar Categoria</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm delete -->
+  <div class="modal-overlay" id="confirm-overlay">
+    <div class="modal modal-sm" onclick="event.stopPropagation()">
+      <div class="modal-header"><h2 class="modal-title">Confirmar exclusão</h2></div>
+      <div class="modal-body"><p class="confirm-text">Tem certeza? Esta ação não pode ser desfeita.</p></div>
+      <div class="modal-footer">
+        <button class="btn-ghost" onclick="fecharConfirm()">Cancelar</button>
+        <button class="btn-danger" id="btn-confirmar-delete">Excluir</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="shared.js"></script>
+  <script src="produtos.js"></script>
+</body>
+</html>

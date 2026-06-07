@@ -1,93 +1,86 @@
 /**
- * =============================================================
- * 📄 ARQUIVO: src/models/produtoModel.js
- * CAMADA: Model (Modelo)
- * =============================================================
- *
- * Responsabilidade: ser o ÚNICO lugar do sistema que escreve
- * e executa comandos SQL. Representa a tabela `produtos` no banco.
- *
- * O Model não sabe nada sobre HTTP, req ou res.
- * Ele só recebe dados, faz a operação no banco e retorna o resultado.
- *
- * FLUXO DE CONEXÃO:
- * ← Chamado pelo src/controllers/produtoController.js
- * → Usa o pool de src/config/database.js para executar SQL
- * =============================================================
+ * 📄 src/models/produtoModel.js
+ * Único lugar com SQL da tabela produtos.
+ * Atualizado para suportar categoria_id e filtros avançados.
  */
-
 const pool = require('../config/database');
 
-// ── findAll ───────────────────────────────────────────────────
-// Retorna todos os produtos da tabela
-const findAll = async () => {
-  const [rows] = await pool.query('SELECT * FROM produtos');
+const findAll = async (filtros = {}) => {
+  let query = `
+    SELECT p.*, c.nome AS categoria_nome, c.cor AS categoria_cor
+    FROM produtos p
+    LEFT JOIN categorias c ON p.categoria_id = c.id
+    WHERE 1=1
+  `;
+  const valores = [];
+
+  if (filtros.categoria_id) {
+    query += ' AND p.categoria_id = ?';
+    valores.push(filtros.categoria_id);
+  }
+  if (filtros.preco_min !== undefined) {
+    query += ' AND p.preco >= ?';
+    valores.push(filtros.preco_min);
+  }
+  if (filtros.preco_max !== undefined) {
+    query += ' AND p.preco <= ?';
+    valores.push(filtros.preco_max);
+  }
+  if (filtros.qtd_min !== undefined) {
+    query += ' AND p.quantidade >= ?';
+    valores.push(filtros.qtd_min);
+  }
+  if (filtros.qtd_max !== undefined) {
+    query += ' AND p.quantidade <= ?';
+    valores.push(filtros.qtd_max);
+  }
+
+  query += ' ORDER BY p.id DESC';
+  const [rows] = await pool.query(query, valores);
   return rows;
 };
 
-// ── findById ──────────────────────────────────────────────────
-// Retorna um único produto pelo ID, ou undefined se não existir
 const findById = async (id) => {
   const [rows] = await pool.query(
-    'SELECT * FROM produtos WHERE id = ?',
+    `SELECT p.*, c.nome AS categoria_nome
+     FROM produtos p
+     LEFT JOIN categorias c ON p.categoria_id = c.id
+     WHERE p.id = ?`,
     [id]
   );
   return rows[0];
 };
 
-// ── createMany ────────────────────────────────────────────────
-// Insere um ou mais produtos em lote com uma única query
-// Recebe um array de objetos: [{ nome, preco, quantidade }, ...]
 const createMany = async (produtos) => {
-  const valores = produtos.map(({ nome, preco, quantidade }) => [
-    nome,
-    preco,
-    quantidade,
+  const valores = produtos.map(({ nome, preco, quantidade, categoria_id }) => [
+    nome, preco, quantidade, categoria_id || null
   ]);
-
   const [result] = await pool.query(
-    'INSERT INTO produtos (nome, preco, quantidade) VALUES ?',
+    'INSERT INTO produtos (nome, preco, quantidade, categoria_id) VALUES ?',
     [valores]
   );
-
   return result;
 };
 
-// ── update ────────────────────────────────────────────────────
-// Atualiza apenas os campos enviados (monta a query dinamicamente)
 const update = async (id, campos) => {
   const setClauses = [];
   const valores = [];
 
-  if (campos.nome !== undefined) {
-    setClauses.push('nome = ?');
-    valores.push(campos.nome);
-  }
-  if (campos.preco !== undefined) {
-    setClauses.push('preco = ?');
-    valores.push(campos.preco);
-  }
-  if (campos.quantidade !== undefined) {
-    setClauses.push('quantidade = ?');
-    valores.push(campos.quantidade);
-  }
+  if (campos.nome !== undefined)         { setClauses.push('nome = ?');         valores.push(campos.nome); }
+  if (campos.preco !== undefined)        { setClauses.push('preco = ?');        valores.push(campos.preco); }
+  if (campos.quantidade !== undefined)   { setClauses.push('quantidade = ?');   valores.push(campos.quantidade); }
+  if (campos.categoria_id !== undefined) { setClauses.push('categoria_id = ?'); valores.push(campos.categoria_id || null); }
 
-  // Adiciona o id para a cláusula WHERE
   valores.push(id);
-
-  const query = `UPDATE produtos SET ${setClauses.join(', ')} WHERE id = ?`;
-  const [result] = await pool.query(query, valores);
-
+  const [result] = await pool.query(
+    `UPDATE produtos SET ${setClauses.join(', ')} WHERE id = ?`,
+    valores
+  );
   return result;
 };
 
-// ── remove ────────────────────────────────────────────────────
-// Remove um produto pelo ID
 const remove = async (id) => {
-  const [result] = await pool.query(
-    'DELETE FROM produtos WHERE id = ?',
-    [id]
-  );
+  const [result] = await pool.query('DELETE FROM produtos WHERE id = ?', [id]);
   return result;
 };
 

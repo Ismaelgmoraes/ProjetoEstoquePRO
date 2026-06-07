@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configurações · EstoquePro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo"><span class="logo-icon">⬡</span><span class="logo-text">Estoque<em>Pro</em></span></div>
+    <nav class="sidebar-nav">
+      <a href="index.html"         class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+      <a href="produtos.html"      class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 3H8a2 2 0 00-2 2v2h12V5a2 2 0 00-2-2z"/></svg>Produtos</a>
+      <a href="relatorios.html"    class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>Relatórios</a>
+      <a href="configuracoes.html" class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Configurações</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-avatar" id="sidebar-avatar">IS</div>
+      <div class="user-info"><span class="user-name" id="sidebar-user-name">Ismael</span><span class="user-role" id="sidebar-user-role">Administrador</span></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="page-header">
+      <div class="header-left">
+        <h1 class="page-title">Configurações</h1>
+        <p class="page-subtitle">Personalize o sistema e gerencie seu perfil</p>
+      </div>
+    </header>
+
+    <div class="config-grid">
+
+      <!-- Perfil do Usuário -->
+      <div class="config-card">
+        <div class="config-card-header">
+          <div class="config-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div>
+            <h3 class="config-card-title">Perfil do Usuário</h3>
+            <p class="config-card-desc">Informações exibidas no sistema</p>
+          </div>
+        </div>
+        <div class="config-card-body">
+          <div class="form-group">
+            <label class="form-label">Nome completo</label>
+            <input type="text" class="form-input" id="user-nome" placeholder="Seu nome" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Cargo</label>
+            <input type="text" class="form-input" id="user-cargo" placeholder="Ex: Administrador" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">E-mail</label>
+            <input type="email" class="form-input" id="user-email" placeholder="seu@email.com" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Alertas de Estoque -->
+      <div class="config-card">
+        <div class="config-card-header">
+          <div class="config-icon warning">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div>
+            <h3 class="config-card-title">Alertas de Estoque</h3>
+            <p class="config-card-desc">Define quando um produto entra em alerta</p>
+          </div>
+        </div>
+        <div class="config-card-body">
+          <div class="form-group">
+            <label class="form-label">Limite de estoque baixo</label>
+            <input type="number" class="form-input" id="alerta-limite" min="0" placeholder="10" />
+            <span style="font-size:12px;color:var(--text-muted);margin-top:4px">
+              Produtos com quantidade igual ou abaixo desse valor aparecem como "Estoque baixo"
+            </span>
+          </div>
+          <div class="alerta-preview" id="alerta-preview">
+            <span class="badge badge-ok">Em estoque</span> acima do limite
+            <span class="badge badge-low" style="margin-left:8px">Estoque baixo</span> no limite ou abaixo
+            <span class="badge badge-empty" style="margin-left:8px">Sem estoque</span> quantidade zero
+          </div>
+        </div>
+      </div>
+
+      <!-- Aparência -->
+      <div class="config-card">
+        <div class="config-card-header">
+          <div class="config-icon success">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 010 20"/><path d="M2 12h20"/></svg>
+          </div>
+          <div>
+            <h3 class="config-card-title">Aparência</h3>
+            <p class="config-card-desc">Tema visual do sistema</p>
+          </div>
+        </div>
+        <div class="config-card-body">
+          <div class="tema-options">
+            <label class="tema-option" id="tema-dark">
+              <input type="radio" name="tema" value="dark" />
+              <div class="tema-preview dark-preview">
+                <div class="preview-sidebar"></div>
+                <div class="preview-content"><div class="preview-bar"></div><div class="preview-bar short"></div></div>
+              </div>
+              <span>Escuro</span>
+            </label>
+            <label class="tema-option" id="tema-light">
+              <input type="radio" name="tema" value="light" />
+              <div class="tema-preview light-preview">
+                <div class="preview-sidebar light"></div>
+                <div class="preview-content light"><div class="preview-bar light-bar"></div><div class="preview-bar short light-bar"></div></div>
+              </div>
+              <span>Claro <span style="font-size:11px;color:var(--text-muted)">(em breve)</span></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sobre o sistema -->
+      <div class="config-card">
+        <div class="config-card-header">
+          <div class="config-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div>
+            <h3 class="config-card-title">Sobre o Sistema</h3>
+            <p class="config-card-desc">Informações técnicas</p>
+          </div>
+        </div>
+        <div class="config-card-body">
+          <div class="sobre-grid">
+            <div class="sobre-item"><span class="sobre-label">Versão</span><span class="sobre-valor">1.0.0</span></div>
+            <div class="sobre-item"><span class="sobre-label">Back-end</span><span class="sobre-valor">Node.js + Express</span></div>
+            <div class="sobre-item"><span class="sobre-label">Banco de dados</span><span class="sobre-valor">MySQL 8</span></div>
+            <div class="sobre-item"><span class="sobre-label">Arquitetura</span><span class="sobre-valor">Layered (Routes → Controller → Model)</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Botão salvar fixo -->
+    <div class="config-footer">
+      <button class="btn-ghost" onclick="carregarConfiguracoes()">Descartar alterações</button>
+      <button class="btn-primary" onclick="salvarConfiguracoes()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Salvar Configurações
+      </button>
+    </div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <script src="shared.js"></script>
+  <script src="configuracoes.js"></script>
+</body>
+</html>

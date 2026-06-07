@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relatórios · EstoquePro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo"><span class="logo-icon">⬡</span><span class="logo-text">Estoque<em>Pro</em></span></div>
+    <nav class="sidebar-nav">
+      <a href="index.html"         class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+      <a href="produtos.html"      class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 3H8a2 2 0 00-2 2v2h12V5a2 2 0 00-2-2z"/></svg>Produtos</a>
+      <a href="relatorios.html"    class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>Relatórios</a>
+      <a href="configuracoes.html" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Configurações</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-avatar" id="sidebar-avatar">IS</div>
+      <div class="user-info"><span class="user-name" id="sidebar-user-name">Ismael</span><span class="user-role" id="sidebar-user-role">Administrador</span></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="page-header">
+      <div class="header-left">
+        <h1 class="page-title">Relatórios</h1>
+        <p class="page-subtitle">Análise visual do seu estoque por categoria e valor</p>
+      </div>
+      <button class="btn-ghost" onclick="carregarRelatorios()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        Atualizar
+      </button>
+    </header>
+
+    <!-- Métricas resumo -->
+    <section class="metrics">
+      <div class="metric-card"><span class="metric-label">Total de Produtos</span><span class="metric-value" id="r-total">—</span><span class="metric-desc">itens cadastrados</span></div>
+      <div class="metric-card accent"><span class="metric-label">Valor Total</span><span class="metric-value" id="r-valor">—</span><span class="metric-desc">em estoque</span></div>
+      <div class="metric-card"><span class="metric-label">Categorias</span><span class="metric-value" id="r-categorias">—</span><span class="metric-desc">ativas</span></div>
+      <div class="metric-card"><span class="metric-label">Estoque Crítico</span><span class="metric-value" id="r-critico">—</span><span class="metric-desc">abaixo do limite</span></div>
+    </section>
+
+    <!-- Gráficos -->
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h3 class="chart-title">Quantidade por Categoria</h3>
+        <div class="chart-wrapper"><canvas id="grafico-quantidade"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3 class="chart-title">Valor em Estoque por Categoria</h3>
+        <div class="chart-wrapper"><canvas id="grafico-valor"></canvas></div>
+      </div>
+      <div class="chart-card chart-wide">
+        <h3 class="chart-title">Top 8 — Produtos por Valor Total em Estoque</h3>
+        <div class="chart-wrapper chart-wrapper-bar"><canvas id="grafico-top"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Tabela críticos -->
+    <section class="table-section">
+      <div class="table-header">
+        <span style="font-size:14px;font-weight:500;color:var(--text-primary)">⚠️ Produtos com estoque crítico</span>
+      </div>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr><th>ID</th><th>Produto</th><th>Categoria</th><th>Quantidade</th><th>Preço</th><th>Status</th></tr></thead>
+          <tbody id="tabela-criticos"><tr class="loading-row"><td colspan="6"><div class="loading-spinner"></div><span>Carregando...</span></td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <script src="shared.js"></script>
+  <script src="relatorios.js"></script>
+</body>
+</html>

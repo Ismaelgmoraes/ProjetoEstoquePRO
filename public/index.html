@@ -3,57 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Estoque · Painel de Controle</title>
+  <title>Dashboard · EstoquePro</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <!-- ── Sidebar ─────────────────────────────── -->
   <aside class="sidebar">
     <div class="sidebar-logo">
       <span class="logo-icon">⬡</span>
       <span class="logo-text">Estoque<em>Pro</em></span>
     </div>
-
     <nav class="sidebar-nav">
-      <a href="#" class="nav-item active">
+      <a href="index.html"         class="nav-item active">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
         Dashboard
       </a>
-      <a href="#" class="nav-item">
+      <a href="produtos.html"      class="nav-item">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 3H8a2 2 0 00-2 2v2h12V5a2 2 0 00-2-2z"/></svg>
         Produtos
       </a>
-      <a href="#" class="nav-item">
+      <a href="relatorios.html"    class="nav-item">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
         Relatórios
       </a>
-      <a href="#" class="nav-item">
+      <a href="configuracoes.html" class="nav-item">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
         Configurações
       </a>
     </nav>
-
     <div class="sidebar-footer">
-      <div class="user-avatar">IS</div>
+      <div class="user-avatar" id="sidebar-avatar">IS</div>
       <div class="user-info">
-        <span class="user-name">Ismael</span>
-        <span class="user-role">Administrador</span>
+        <span class="user-name" id="sidebar-user-name">Ismael</span>
+        <span class="user-role" id="sidebar-user-role">Administrador</span>
       </div>
     </div>
   </aside>
 
-  <!-- ── Main Content ────────────────────────── -->
   <main class="main">
-
-    <!-- Header -->
     <header class="page-header">
       <div class="header-left">
-        <h1 class="page-title">Painel de Estoque</h1>
-        <p class="page-subtitle">Gerencie seus produtos em tempo real</p>
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-subtitle">Visão geral do seu estoque em tempo real</p>
       </div>
       <button class="btn-primary" onclick="abrirModal('criar')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -61,7 +54,6 @@
       </button>
     </header>
 
-    <!-- Metric Cards -->
     <section class="metrics">
       <div class="metric-card">
         <span class="metric-label">Total de Itens</span>
@@ -85,7 +77,6 @@
       </div>
     </section>
 
-    <!-- Table Section -->
     <section class="table-section">
       <div class="table-header">
         <div class="search-box">
@@ -97,38 +88,26 @@
           Atualizar
         </button>
       </div>
-
       <div class="table-wrapper">
         <table class="data-table">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Produto</th>
-              <th>Preço Unit.</th>
-              <th>Quantidade</th>
-              <th>Valor Total</th>
-              <th>Status</th>
-              <th>Ações</th>
+              <th>ID</th><th>Produto</th><th>Categoria</th>
+              <th>Preço Unit.</th><th>Quantidade</th><th>Valor Total</th>
+              <th>Status</th><th>Ações</th>
             </tr>
           </thead>
           <tbody id="tabela-body">
-            <tr class="loading-row">
-              <td colspan="7">
-                <div class="loading-spinner"></div>
-                <span>Carregando produtos...</span>
-              </td>
-            </tr>
+            <tr class="loading-row"><td colspan="8"><div class="loading-spinner"></div><span>Carregando...</span></td></tr>
           </tbody>
         </table>
       </div>
     </section>
-
   </main>
 
-  <!-- ── Toast Notification ──────────────────── -->
   <div class="toast" id="toast"></div>
 
-  <!-- ── Modal ───────────────────────────────── -->
+  <!-- Modal Produto -->
   <div class="modal-overlay" id="modal-overlay" onclick="fecharModal()">
     <div class="modal" onclick="event.stopPropagation()">
       <div class="modal-header">
@@ -137,18 +116,19 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
-
       <div class="modal-body">
         <input type="hidden" id="edit-id" />
-
         <div class="form-group">
           <label class="form-label">Nome do Produto</label>
           <input type="text" class="form-input" id="input-nome" placeholder="Ex: Parafuso M8 Sextavado" />
         </div>
-
+        <div class="form-group">
+          <label class="form-label">Categoria</label>
+          <select class="form-input" id="input-categoria"><option value="">Sem categoria</option></select>
+        </div>
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label">Preço Unitário (R$)</label>
+            <label class="form-label">Preço (R$)</label>
             <input type="number" class="form-input" id="input-preco" placeholder="0,00" step="0.01" min="0" />
           </div>
           <div class="form-group">
@@ -157,23 +137,18 @@
           </div>
         </div>
       </div>
-
       <div class="modal-footer">
         <button class="btn-ghost" onclick="fecharModal()">Cancelar</button>
-        <button class="btn-primary" id="btn-salvar" onclick="salvarProduto()">Salvar Produto</button>
+        <button class="btn-primary" id="btn-salvar" onclick="salvarProduto()">Salvar</button>
       </div>
     </div>
   </div>
 
-  <!-- ── Confirm Dialog ──────────────────────── -->
+  <!-- Confirm delete -->
   <div class="modal-overlay" id="confirm-overlay">
     <div class="modal modal-sm" onclick="event.stopPropagation()">
-      <div class="modal-header">
-        <h2 class="modal-title">Confirmar exclusão</h2>
-      </div>
-      <div class="modal-body">
-        <p class="confirm-text">Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita.</p>
-      </div>
+      <div class="modal-header"><h2 class="modal-title">Confirmar exclusão</h2></div>
+      <div class="modal-body"><p class="confirm-text">Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita.</p></div>
       <div class="modal-footer">
         <button class="btn-ghost" onclick="fecharConfirm()">Cancelar</button>
         <button class="btn-danger" id="btn-confirmar-delete">Excluir</button>
@@ -181,6 +156,7 @@
     </div>
   </div>
 
+  <script src="shared.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
