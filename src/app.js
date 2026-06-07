@@ -10,6 +10,7 @@
  * FLUXO DE CONEXÃO:
  * ← Importado pelo index.js
  * → Registra as rotas de src/routes/produtoRoutes.js
+ * → Serve os arquivos estáticos de /public
  * =============================================================
  */
 
@@ -19,6 +20,12 @@ const produtoRoutes = require('./routes/produtoRoutes');
 const app = express();
 
 // ── Middlewares Globais ────────────────────────────────────────
+
+// Serve os arquivos estáticos da pasta public automaticamente.
+// http://localhost:3000         → abre public/index.html
+// http://localhost:3000/style.css  → carrega o CSS
+// http://localhost:3000/script.js  → carrega o JS
+app.use(express.static('public'));
 
 // Permite receber body em JSON nas requisições POST e PUT
 app.use(express.json());
